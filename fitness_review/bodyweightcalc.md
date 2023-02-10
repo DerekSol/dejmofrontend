@@ -29,6 +29,22 @@
 <html>
     <head>
         <title>Body Weight Loss Calculator</title>
+        <script>
+            function calculateMacros() {
+                var gender = document.forms[0].gender.value;
+                var age = document.forms[0].age.value;
+                var weight = document.forms[0].weight.value;
+                var height = document.forms[0].height.value;
+                var activityLevel = document.forms[0].activity_level.value;
+                var workoutPreference = document.forms[0].workout_preference.value;
+                var goalWeight = document.forms[0].goal_weight.value;
+
+                // Code to calculate the macro values based on user input goes here
+
+                var output = "Based on your input, your daily macro values are: " + macros;
+                document.getElementById("output").innerHTML = output;
+            }
+        </script>
     </head>
     <body>
         <h1>Body Weight Loss Calculator</h1>
@@ -70,13 +86,15 @@
                     <option value="Cardio"></option>
                     <option value="Lifting"></option>
                     <option value="Calisthenics"></option>
+                </select>
             </p>
             <p>
                 <label>Goal Weight (LBS):</label>
                 <input type="number" name="goal_weight">
             </p>
             <br>
-            <input type="submit" value="Calculate Macros">
+            <input type="submit" value="Calculate Macros" onclick="calculateMacros()">
         </form>
-    </body>
-</html>
+        <br>
+        <div id="output"></div>
+    </body
