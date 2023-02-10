@@ -55,5 +55,3 @@
             let activity_level = document.getElementById("activity_level").value;
             let workout_preference = document.getElementById("workout_preference").value;
             let goal_weight = document.getElementById("goal_weight").value;
-            
-            // perform calculations based on user
