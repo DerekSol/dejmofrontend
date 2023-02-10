@@ -76,7 +76,7 @@
                 <input type="number" name="goal_weight">
             </p>
             <br>
-            <input type="submit" value="Calculate Macros">
+            <input type="submit" value="Calculate Macroscq">
         </form>
     </body>
 </html>

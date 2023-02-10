@@ -29,8 +29,4 @@ in mkShell {
     pkgs.rubyPackages.racc
     pkgs.bundler
   ];
-
-  shellHook = ''
-   bundle install
-  '';
 }
