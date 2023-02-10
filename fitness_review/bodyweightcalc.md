@@ -8,26 +8,26 @@
             <h3>Personal Information:</h3>
             <p>
                 <label>Gender:</label>
-                <select id="gender" name="gender">
+                <select name="gender">
                     <option value="male">Male</option>
                     <option value="female">Female</option>
                 </select>
             </p>
             <p>
                 <label>Age:</label>
-                <input type="number" id="age" name="age">
+                <input type="number" name="age">
             </p>
             <p>
                 <label>Weight (LBS):</label>
-                <input type="number" id="weight" name="weight">
+                <input type="number" name="weight">
             </p>
             <p>
                 <label>Height (IN):</label>
-                <input type="number" id="height" name="height">
+                <input type="number" name="height">
             </p>
             <p>
                 <label>Activity Level:</label>
-                <select id="activity_level" name="activity_level">
+                <select name="activity_level">
                     <option value="not active">Not Active</option>
                     <option value="sedentary">Sedentary</option>
                     <option value="lightly active">Lightly Active</option>
@@ -37,21 +37,18 @@
                 </select>
             </p>
             <p>
+                <label>Workout Preference:</label>
+                <select name="workout_preference">
+                    <option value="Cardio"></option>
+                    <option value="Lifting"></option>
+                    <option value="Calisthenics"></option>
+            </p>
+            <p>
                 <label>Goal Weight (LBS):</label>
-                <input type="number" id="goal_weight" name="goal_weight">
+                <input type="number" name="goal_weight">
             </p>
             <br>
-            <input type="submit" value="Calculate Macros" onclick="calculateMacros()">
+            <input type="submit" value="Calculate Macros">
         </form>
-        <div id="output"></div>
     </body>
-    <script>
-        function calculateMacros() {
-            // get the values of each input field
-            let gender = document.getElementById("gender").value;
-            let age = document.getElementById("age").value;
-            let weight = document.getElementById("weight").value;
-            let height = document.getElementById("height").value;
-            let activity_level = document.getElementById("activity_level").value;
-            let workout_preference = document.getElementById("workout_preference").value;
-            let goal_weight = document.getElementById("goal_weight").value;
+</html>
