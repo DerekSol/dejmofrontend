@@ -1,31 +1,3 @@
-<style>
-  .search-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-  }
-  .search-input {
-    width: 300px;
-    height: 50px;
-    border: none;
-    border-radius: 25px;
-    padding: 0 20px;
-    font-size: 20px;
-    margin-right: 20px;
-  }
-  .search-button {
-    width: 150px;
-    height: 50px;
-    background-color: #46CEE3;
-    color: white;
-    border: none;
-    border-radius: 25px;
-    font-size: 20px;
-    cursor: pointer;
-  }
-</style>
 <html>
     <head>
         <title>Body Weight Loss Calculator</title>
@@ -63,17 +35,6 @@
                     <option value="very active">Very Active</option>
                     <option value="extra active">Extra Active</option>
                 </select>
-            </p>
-            <p>
-                <label>Workout Preference:</label>
-                <select name="workout_preference">
-                    <option value="Cardio"></option>
-                    <option value="Lifting"></option>
-                    <option value="Calisthenics"></option>
-            </p>
-            <p>
-                <label>Goal Weight (LBS):</label>
-                <input type="number" name="goal_weight">
             </p>
             <br>
             <input type="submit" value="Calculate Macros">
