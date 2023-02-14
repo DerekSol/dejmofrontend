@@ -36,17 +36,6 @@
                     <option value="extra active">Extra Active</option>
                 </select>
             </p>
-            <p>
-                <label>Workout Preference:</label>
-                <select name="workout_preference">
-                    <option value="Cardio"></option>
-                    <option value="Lifting"></option>
-                    <option value="Calisthenics"></option>
-            </p>
-            <p>
-                <label>Goal Weight (LBS):</label>
-                <input type="number" name="goal_weight">
-            </p>
             <br>
             <input type="submit" value="Calculate Macros">
         </form>
