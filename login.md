@@ -1,90 +1,74 @@
-
+<!DOCTYPE html>
 <html>
-  <head>
-    <title>Registration Form</title>
+<head>
+    <title>Personalized Diet Plan Generator</title>
+</head>
+<body>
+    <h1>Personalized Diet Plan Generator</h1>
+    <form>
+        <label for="weight_goal">Weight goal:</label>
+        <select id="weight_goal" name="weight_goal">
+            <option value="lose">Lose weight</option>
+            <option value="gain">Gain weight</option>
+            <option value="maintain">Maintain weight</option>
+        </select>
+        <br>
+        <label for="current_weight">Current weight:</label>
+        <input type="number" id="current_weight" name="current_weight">
+        <br>
+        <label for="height">Height:</label>
+        <input type="number" id="height" name="height">
+        <br>
+        <label for="age">Age:</label>
+        <input type="number" id="age" name="age">
+        <br>
+        <label for="gender">Gender:</label>
+        <select id="gender" name="gender">
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+        </select>
+        <br>
+        <button type="button" onclick="generateDiet()">Generate Diet Plan</button>
+    </form>
 
-    <style>
-      /* Center the title */
-      h1 {
-        text-align: center;
-        color: #00bfff; /* blue color */
-       
-       
-      }
-      
-      /* Center the submit button */
-      input[type="submit"] {
-        margin: 0 auto;
-        width: 150px;
-        height: 50px;
-        font-size: 20px;
-        display: block;
-        margin: 30px auto;
-      
-        color:black;
-      }
-      
-      /* Use Grid layout to separate title and rest of the form */
-      body {
-        display: grid;
-        grid-template-columns: 1fr;
-        grid-template-rows: auto 1fr;
-        height: 100vh;
-        margin: 0;
-      }
-      
-      /* Add background color for title */
-      .title {
-  
-        padding: 20px;
-      }
-      
-      /* Add space and background color between fields */
-      .field {
-        margin: 60px 0;
-        padding: 10px;
-     
-      }
-      form {
-        text-align:center;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="title">
-      <h1>DEJMO FITNESS</h1>
-    </div>
-    <div>
-      <form action="/register" method="POST">
-        <div class="field">
-          <label for="firstname">First Name:</label>
-          <input type="text" id="firstname" name="firstname" required>
-        </div>
-        <div class="field">
-          <label for="lastname">Last Name:</label>
-          <input type="text" id="lastname" name="lastname" required>
-        </div>
-        <div class="field">
-          <label for="email">Email:</label>
-          <input type="email" id="email" name="email" required>
-        </div>
-        <div class="field">
-          <label for="password">Password:</label>
-          <input type="password" id="password" name="password" required>
-        </div>
-        <div class="field">
-          <label for="dob">DOB:</label>
-          <input type="date" id="dob" name="dob" required>
-        </div>
-        <div class="field">
-          <label for="phone">Phone:</label>
-          <input type="tel" id="phone" name="phone" required>
-        </div>
-        <div class="field">
-          <input type="submit" value="Submit">
-        </div>
-      </form>
-    </div>
-  </body>
+    <div id="output"></div>
+
+    <script>
+        function generateDiet() {
+            const weight_goal = document.getElementById('weight_goal').value;
+            const current_weight = document.getElementById('current_weight').value;
+            const height = document.getElementById('height').value;
+            const age = document.getElementById('age').value;
+            const gender = document.getElementById('gender').value;
+
+            fetch('/generate_diet', {
+                method: 'POST',
+                body: JSON.stringify({weight_goal, current_weight, height, age, gender}),
+                headers: {'Content-Type': 'application/json'}
+            })
+            .then(response => response.json())
+            .then(data => {
+                let output = '<h2>Diet Plan</h2>';
+                output += '<h3>Breakfast</h3>';
+                for (const [food, info] of Object.entries(data.breakfast)) {
+                    output += '<p>' + food + ': ' + info.quantity + ' ' + info.unit + '</p>';
+                }
+                output += '<h3>Lunch</h3>';
+                for (const [food, info] of Object.entries(data.lunch)) {
+                    output += '<p>' + food + ': ' + info.quantity + ' ' + info.unit + '</p>';
+                }
+                output += '<h3>Dinner</h3>';
+                for (const [food, info] of Object.entries(data.dinner)) {
+                    output += '<p>' + food + ': ' + info.quantity + ' ' + info.unit + '</p>';
+                }
+                output += '<h3>Snack</h3>';
+                for (const [food, info] of Object.entries(data.snack)) {
+                    output += '<p>' + food + ': ' + info.quantity + ' ' + info.unit + '</p>';
+                }
+                document.getElementById('output').innerHTML = output;
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
 </html>
-
