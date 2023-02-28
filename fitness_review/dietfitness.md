@@ -44,7 +44,7 @@
     let dietLoader = {}
     let currentDiet = -1
     // change in AWS
-    const url = "http://localhost:8111/diet?"
+    const url = "http://localhost:8086/diet?"
 
     const previewDiet = (diet) => {
         document.getElementById("DietName").innerHTML = "Diet Name: " + diet.diet_name
