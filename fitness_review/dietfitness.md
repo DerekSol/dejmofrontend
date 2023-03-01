@@ -63,6 +63,7 @@
         fetch(url + new URLSearchParams({username: user})).then(data => data.json()).then(json => {
             document.getElementById("existingDiets").innerHTML = ""
             
+            console.log(json)
             json.forEach(diet => {
                 const button = document.createElement("button")
                 button.innerHTML = diet.diet_name
