@@ -24,6 +24,7 @@
         <textarea placeholder="Extra Notes" id="extra_notes"></textarea>
         <input type="submit" />
     </form>
+    <button id="update" type="submit">Update Diet</button>
 
 </div>
 <div id="previewDiet">
@@ -44,23 +45,26 @@
     let dietLoader = {}
     let currentDiet = -1
     // change in AWS
-    const url = "http://localhost:8086/diet?"
+    const baseurl = "http://127.0.0.1:8086/api/diets/";
 
     const previewDiet = (diet) => {
         document.getElementById("DietName").innerHTML = "Diet Name: " + diet.diet_name
         document.getElementById("Calories").innerHTML = "Calories: " + diet.calories
         document.getElementById("Protein").innerHTML = "Protein: " + diet.protein + " grams"
-        document.getElementById("Fat").innerHTML = "Fat: " + diet.protein + " grams"
-        document.getElementById("Carbs").innerHTML = "Carbs: " + diet.protein + " grams"
+        document.getElementById("Fat").innerHTML = "Fat: " + diet.fat + " grams"
+        document.getElementById("Carbs").innerHTML = "Carbs: " + diet.carbs + " grams"
         document.getElementById("ExtraNotes").innerHTML = "Extra Notes:\n" + diet.extra_notes
         currentDiet = diet.id
     }
 
     const loadDiets = () => {
         const user = document.getElementById("user").value
+        const url = baseurl+user;
         if (user === "") {alert("Invalid username!"); return}
         try {
-        fetch(url + new URLSearchParams({username: user})).then(data => data.json()).then(json => {
+        fetch(url, {
+            username : user
+        }).then(data => data.json()).then(json => {
             document.getElementById("existingDiets").innerHTML = ""
             
             console.log(json)
@@ -72,7 +76,7 @@
                 document.getElementById("existingDiets").appendChild(button)
             })
 
-            localStorage.setItem("user", user)
+            localStorage.setItem("user", user) //Used for redundancy in case user is undefined
         })
     } catch {
         alert("Username not found!")
@@ -84,20 +88,19 @@
             alert("invalid diet!")
             return
         }
-
+        url = baseurl+'delete/'+currentDiet
         fetch(url, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({id: currentDiet})
+            }
         }).then(() => {
             alert("Success, deleted!")
             loadDiets()
         })
     }
 
-    document.getElementById("adiet").addEventListener("submit", (e) => {
+    document.getElementById("adiet").addEventListener("submit", async (e) => { //post
         e.preventDefault();
         e.stopImmediatePropagation();
         const fields = [
@@ -128,17 +131,18 @@
         dict["protein"] = parseInt(dict["protein"])
         dict["fat"] = parseInt(dict["fat"])
         dict["carbs"] = parseInt(dict["carbs"])
-
-        fetch(url, {
+        const url = 'http://127.0.0.1:8086/api/diets/post'
+        const rawResponse = await fetch(url, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
+            body: JSON.stringify(dict),
+            headers : {
+                'Content-Type':'application/json'
             },
-            body: JSON.stringify(dict)
-        }).then((data) =>data.json()).then(data => {
-            previewDiet(data)
-            loadDiets()
-        })
+            data: {}
+  });
+  const content = await rawResponse.json();
+
+  console.log(content);
     })
 
     const maybeUser = localStorage.getItem("user")
@@ -146,6 +150,49 @@
         document.getElementById("user").value = maybeUser
         loadDiets()
     }
+document.getElementById("update").addEventListener("click", async (e) => { //put
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        const fields = [
+            "diet_name",
+            "user",
+            "calories",
+            "protein",
+            "fat",
+            "carbs",
+            "extra_notes"
+        ]
+        const values = fields.map((f) => document.getElementById(f).value)
+        // content["message"]
+        const dict = {}
+        for (let i = 0; i < values.length; i++){
+            if (values[i] != ""){
+                dict[fields[i]] = values[i]
+            }
+        }
+        // define url
+        const user = document.getElementById("user").value
+        const diet = document.getElementById("diet_name").value
+        const url = "http://127.0.0.1:8086/api/diets/"+user+"_"+diet
+        console.log(url)
+        const rawResponse = await fetch(url, {
+            method: 'PUT',
+            body: JSON.stringify({"update" : dict}),
+            headers : {
+                'Content-Type':'application/json'
+            },
+            data: {}
+        });
+        const content = await rawResponse.json();
+        if (content["message"] === "There is nothing like this!"){
+            alert("There is nothing like this!")
+        }
+        else if(content["message"] === "Action Complete!"){
+            alert("Action Complete!")
+        }
+        console.log(content);
+})
+
 </script>
 
 <style>
